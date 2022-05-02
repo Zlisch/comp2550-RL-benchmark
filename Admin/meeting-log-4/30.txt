@@ -1,0 +1,9 @@
+Meeting Log 4/30
+Questions: 
+1. Form of input (Full screen of the scenario vs Smaller vision of the scenario) to agent
+2. Can we use POMDP in our research? 
+3. Relative vision for the agent
+4. Reward function (how we design it?)
+5. Is there any research about the scenario where 'agent will not affect by the physics, but the other objects in the environment will be affected by the physics'. 
+6. How can we include physics puzzle in the scenario? 
+7. Good pratices to create a new benchmark?
