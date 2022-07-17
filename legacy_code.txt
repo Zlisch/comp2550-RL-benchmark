@@ -1,0 +1,62 @@
+From BMTemplate.py:
+    # Adds the bodies in this template to an existing b2World
+    def addToWorld(self, world: b2World) -> b2World:
+        # Statics:
+        for d in self.staticDefs:
+            self.statics.append(world.CreateBody(d))
+
+        # Dynamic Blues:
+        for d in self.dynamicBlueDefs:
+            self.dynamicBlues.append(world.CreateBody(d))
+
+        # Dynamic Reds:
+        for d in self.dynamicRedDefs:
+            self.dynamicReds.append(world.CreateBody(d))
+
+        # Agent:
+        self.agent = world.CreateBody(self.agentDef)
+
+        return world
+
+        # Query a position in the world for what is there:
+
+    # Returns a one-hot vector representing the presence of objects:
+    # (static, dynamicRed, dynamicBlue, agent)
+    def queryPoint(self, point: b2Vec2):
+        ret = (0, 0, 0, 0)
+
+        # Statics:
+        for b in self.statics:
+            exitloop = False
+            for f in b.fixtures:
+                if f.TestPoint(point):
+                    ret += (1, 0, 0, 0)
+                    exitloop = True
+                    break  # exit loop
+            if exitloop: break
+
+        # Dynamic Reds:
+        for b in self.dynamicReds:
+            exitloop = False
+            for f in b.fixtures:
+                if f.TestPoint(point):
+                    ret += (0, 1, 0, 0)
+                    exitloop = True
+                    break  # exit loop
+            if exitloop: break
+
+        # Dynamic Blues:
+        for b in self.dynamicBlues:
+            exitloop = False
+            for f in b.fixtures:
+                if f.TestPoint(point):
+                    ret += (9, 0, 1, 0)
+                    exitloop = True
+                    break  # exit loop
+            if exitloop: break
+
+        # Agent:
+        if self.agent.fixtures[0].TestPoint(point):
+            ret += (0, 0, 0, 1)
+
+        return ret
